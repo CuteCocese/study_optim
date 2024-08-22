@@ -1,4 +1,5 @@
-from ..utils import sqrt
+def sqrt(x):
+    return x**0.5
 
 
 class Adam:
@@ -20,13 +21,16 @@ class Adam:
         self.eps = eps
         self.m = 0.
         self.v = 0.
+        self.t = 0.
 
     def update(self, x, dx):
+        self.t += 1
+
         self.m = self.beta1 * self.m + (1. - self.beta1) * dx
         self.v = self.beta2 * self.v + (1. - self.beta2) * (dx**2)
 
-        m_hat = self.m / (1. - self.beta1)
-        v_hat = self.v / (1. - self.beta2)
+        m_hat = self.m / (1. - self.beta1**self.t)
+        v_hat = self.v / (1. - self.beta2**self.t)
 
-        x = x - self.lr * m_hat / sqrt(v_hat + self.eps) * dx
+        x = x - self.lr * m_hat / sqrt(v_hat + self.eps)
         return x

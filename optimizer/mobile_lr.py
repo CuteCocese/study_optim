@@ -1,4 +1,6 @@
-from ..utils import sqrt
+def sqrt(x):
+    return x**0.5
+
 
 
 class RMSProp:
