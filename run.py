@@ -12,7 +12,7 @@ def target_func(x: float) -> float:
 
 # 타겟 함수의 도함수
 def grad_func(x: float) -> float:
-    return 1/3 * x + 4 * np.cos(4*x)
+    return 20 * x + 10 * np.sin(10 * x)
 
 
 # 수치 미분
@@ -37,7 +37,7 @@ optims: list = [
 epochs: int = 1000  # 반복 횟수
 bounds: list = [-2, 2]  # 경계
 x: float = np.random.uniform(*bounds)  # 초기 위치 설정(랜덤)
-# x: float = 1.
+# x: float = 1.  # 수동
 
 # 기타
 epoch_list: list = list(range(0, epochs+1))
@@ -45,9 +45,9 @@ graph_step: float = 1e-2  # 그래프 그리는 정확도
 
 # Set Mode
 show_x_graph: bool = True  # x의 위치 변화 그래프
-show_y_graph: bool = True  # y의 위치 변화 그래프
-show_step_graph: bool = True  # x와 y의 위치 변화를 함수에 그림
-show_optim_info: bool = True  # 옵티마이저 정보
+show_y_graph: bool = False  # y의 위치 변화 그래프
+show_step_graph: bool = False  # x와 y의 위치 변화를 함수에 그림
+show_optim_info: bool = False  # 옵티마이저 정보
 save_info: bool = True  # 옵티마이저 정보 저장
 save_graph: bool = True  # 그래프 저장 유무
 save_type: str = 'png'  # pdf, jpeg 등등
@@ -88,7 +88,8 @@ for i, optim in enumerate(optims):
 
     # 최적화 실행
     for epoch in range(epochs):
-        dx = num_diff2(target_func, train_x)  # 기울기 계산
+        # dx = num_diff2(target_func, train_x)  # 기울기 계산
+        dx = grad_func(train_x)
         train_x = optim.update(train_x, dx)  # 기울기를 바탕으로 x 갱신
 
         history_x.append(train_x) # x history 업데이트
